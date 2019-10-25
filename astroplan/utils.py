@@ -108,7 +108,7 @@ def _get_IERS_A_table(warn_update=14*u.day):
         raise OSError("No IERS A table has been downloaded.")
 
 
-def download_IERS_A(show_progress=True):
+def download_IERS_A(urls=None, show_progress=True):
     """
     Download and cache the IERS Bulletin A table.
 
@@ -118,10 +118,13 @@ def download_IERS_A(show_progress=True):
 
     Parameters
     ----------
+    urls : list | None
+        A list of urls to attempt download, default `None`. If `None` use astropy config.
     show_progress : bool
         `True` shows a progress bar during the download.
     """
-    urls = (iers.conf.iers_auto_url, iers.conf.iers_auto_url_mirror)
+    if urls is None:
+        urls = (iers.conf.iers_auto_url, iers.conf.iers_auto_url_mirror)
 
     if IERS_A_in_cache():
         for url in urls:
